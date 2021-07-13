@@ -38,7 +38,7 @@ The default keybinds are (in both tmux and neovim):
 - `Ctrl + j`: move down
 - `Ctrl + k`: move up
 - `Ctrl + l`: move right
-- `Ctrl + p`: move to previous pane
+- `Ctrl + \`: move to previous pane
 
 However, this means that you lose access to the `clear screen` terminal feature,
 activated by <Ctrl-l> by default. You can either:
