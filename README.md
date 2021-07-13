@@ -40,8 +40,8 @@ The default keybinds are (in both tmux and neovim):
 - `Ctrl + l`: move right
 - `Ctrl + \`: move to previous pane
 
-However, this means that you lose access to the `clear screen` terminal feature,
-activated by <Ctrl-l> by default. You can either:
+However, this means that you lose access to the "clear screen" terminal feature,
+activated by `<Ctrl-l>` by default. You can either:
 - remap the keys to something like `Alt + h/j/k/l` if your terminal supports it
 (not all do), or
 - add a different keybind to clear screen in `~/.tmux.conf`, for example
