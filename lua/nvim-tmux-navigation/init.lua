@@ -16,13 +16,13 @@ local function vim_navigate(direction)
     end
 end
 
-local function tmux_navigate(direction)
-    -- whether tmux should control the previous pane switching or no
-    --
-    -- by default it's true, so when you enter a new vim instance and
-    -- try to switch to a previous pane, tmux should take control
-    local tmux_control = tmux_control or true
+-- whether tmux should control the previous pane switching or no
+--
+-- by default it's true, so when you enter a new vim instance and
+-- try to switch to a previous pane, tmux should take control
+local tmux_control = true
 
+local function tmux_navigate(direction)
     if direction == 'p' then
 
         -- if the last pane was a tmux pane, then we need to handle control
