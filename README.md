@@ -116,7 +116,7 @@ For other issues, feature-requests or problems, please open an issue on [github]
 
 Alexandru Gherghescu (alexghergh@gmail.com)
 
-With greath thanks to [Chris Toomey](https://github.com/christoomey), whose plugin I used for a long time
+With great thanks to [Chris Toomey](https://github.com/christoomey), whose plugin I used for a long time
 before Neovim 0.5.0.
 
 ## License
