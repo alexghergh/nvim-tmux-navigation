@@ -4,7 +4,7 @@ Neovim-Tmux Navigation
 The plugin is a rewrite of [Christoomey's Vim Tmux Navigator](https://github.com/christoomey/vim-tmux-navigator), with a few added
 benefits:
 
-- fully written in Lua, compatible vim NeoVim 0.5.0 or higher
+- fully written in Lua, compatible with NeoVim 0.5.0 or higher
 - doesn't use autocommands (which are not supported natively through the Lua api
 in neovim 0.5.0), but instead takes advantage of Lua closures
 - does not use global vim variables
