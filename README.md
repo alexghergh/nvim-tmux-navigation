@@ -106,6 +106,23 @@ require'nvim-tmux-navigation'.setup {
 EOF
 ```
 
+Additionally, if using [packer](https://github.com/wbthomason/packer.nvim), you can do:
+
+```lua
+use { 'alexghergh/nvim-tmux-navigation', config = function()
+        require'nvim-tmux-navigation'.setup {
+            disable_when_zoomed = true -- defaults to false
+        }
+
+        vim.api.nvim_set_keymap('n', "<C-h>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateLeft()<cr>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', "<C-j>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateDown()<cr>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', "<C-k>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateUp()<cr>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', "<C-l>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateRight()<cr>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', "<C-\>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigatePrevious()<cr>", { noremap = true, silent = true })
+    end
+}
+```
+
 ## Additional help
 
 For common issues, see [Vim-tmux navigator](https://github.com/christoomey/vim-tmux-navigator).
