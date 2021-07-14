@@ -33,7 +33,7 @@ use { "alexghergh/nvim-tmux-navigation" }
 
 ## Usage
 
-The default keybinds are (in both tmux and neovim):
+The default keybinds are (in tmux):
 - `Ctrl + h`: move left
 - `Ctrl + j`: move down
 - `Ctrl + k`: move up
@@ -122,6 +122,29 @@ use { 'alexghergh/nvim-tmux-navigation', config = function()
     end
 }
 ```
+
+Or, for a shorter syntax:
+
+```lua
+use { 'alexghergh/nvim-tmux-navigation', config = function()
+        require'nvim-tmux-navigation'.setup {
+            disable_when_zoomed = true, -- defaults to false
+            keybindings = {
+                left = "<C-h>",
+                down = "<C-j>",
+                up = "<C-k>",
+                right = "<C-l>",
+                previous = "<C-\>",
+            }
+        }
+    end
+}
+```
+
+The 2 snippets above are completely equivalent, however the first one gives you
+more room to play with (for example to call the functions in a different
+mapping, or if some condition is met, or to ignore `silent` in the keymappings,
+or to additionally call the functions in visual mode as well, etc.).
 
 ## Additional help
 

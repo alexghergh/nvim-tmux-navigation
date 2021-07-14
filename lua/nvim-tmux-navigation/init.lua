@@ -4,7 +4,8 @@ local M = {}
 
 -- default configuration, can be changed through the setup function
 local config = {
-    disable_when_zoomed = false
+    disable_when_zoomed = false,
+    keybindings = {}
 }
 
 local function vim_navigate(direction)
@@ -38,7 +39,7 @@ local function tmux_navigate(direction)
         -- save the current window number to check later whether we're in the same
         -- window after issuing a vim navigation command
         local winnr = vim.fn.winnr()
-        
+
         -- try to navigate normally
         vim_navigate(direction)
 
@@ -55,10 +56,29 @@ local function tmux_navigate(direction)
     end
 end
 
+local function capitalize(str)
+    return str:gsub("(%a)(%a+)", function(a, b)
+        return string.upper(a) .. string.lower(b)
+    end)
+end
+
 function M.setup(user_config)
     -- disable nvim tmux navigation when a tmux pane is zoomed
     -- defaults to false
     config.disable_when_zoomed = user_config.disable_when_zoomed or false
+
+    -- keybindings for the navigation
+    config.keybindings = user_config.keybindings or {}
+
+    -- loop through the keybindings and map them
+    for func, mapping in pairs(config.keybindings) do
+        func = capitalize(func)
+        vim.api.nvim_set_keymap(
+            'n',
+            mapping,
+            ":lua require'nvim-tmux-navigation'.NvimTmuxNavigate" .. func .. "()<CR>",
+            { noremap = true, silent = true })
+    end
 end
 
 if vim.env.TMUX ~= nil then
