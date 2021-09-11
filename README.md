@@ -39,6 +39,7 @@ The default keybinds are (in tmux):
 - `Ctrl + k`: move up
 - `Ctrl + l`: move right
 - `Ctrl + \`: move to previous pane
+- `Ctrl + Space` move to the next pane
 
 However, this means that you lose access to the "clear screen" terminal feature,
 activated by `<Ctrl-l>` by default. You can either:
@@ -69,12 +70,14 @@ if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
 if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+bind-key -n 'C-Space' if-shell "$is_vim" 'send-keys C-Space' 'select-pane -t:.+'
 
 bind-key -T copy-mode-vi 'C-h' select-pane -L
 bind-key -T copy-mode-vi 'C-j' select-pane -D
 bind-key -T copy-mode-vi 'C-k' select-pane -U
 bind-key -T copy-mode-vi 'C-l' select-pane -R
 bind-key -T copy-mode-vi 'C-\' select-pane -l
+bind-key -T copy-mode-vi 'C-Space' select-pane -t:.+
 ```
 
 ### Neovim
@@ -92,6 +95,7 @@ nnoremap <silent> <C-j> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateDown(
 nnoremap <silent> <C-k> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateUp()<cr>
 nnoremap <silent> <C-l> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateRight()<cr>
 nnoremap <silent> <C-\> :lua require'nvim-tmux-navigation'.NvimTmuxNavigatePrevious()<cr>
+nnoremap <silent> <C-Space> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateNext()<cr>
 ```
 
 There are additional settings for the plugin, for example disable navigation
@@ -119,6 +123,7 @@ use { 'alexghergh/nvim-tmux-navigation', config = function()
         vim.api.nvim_set_keymap('n', "<C-k>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateUp()<cr>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', "<C-l>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateRight()<cr>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap('n', "<C-\>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigatePrevious()<cr>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap('n', "<C-Space>", ":lua require'nvim-tmux-navigation'.NvimTmuxNavigateNext()<cr>", { noremap = true, silent = true })
     end
 }
 ```
@@ -135,6 +140,7 @@ use { 'alexghergh/nvim-tmux-navigation', config = function()
                 up = "<C-k>",
                 right = "<C-l>",
                 previous = "<C-\>",
+                next = "<C-Space>",
             }
         }
     end

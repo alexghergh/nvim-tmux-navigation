@@ -9,7 +9,9 @@ local config = {
 }
 
 local function vim_navigate(direction)
-    if pcall(vim.cmd, 'wincmd ' .. direction) then
+    if direction == 'n' then
+        pcall(vim.cmd, 'wincmd w')
+    elseif pcall(vim.cmd, 'wincmd ' .. direction) then
         -- success
     else
         -- error, cannot wincmd from the command-line window
@@ -24,7 +26,18 @@ end
 local tmux_control = true
 
 local function tmux_navigate(direction)
-    if direction == 'p' then
+    if direction == 'n' then
+
+        local is_last_win = (vim.fn.winnr() == vim.fn.winnr('$'))
+
+        if is_last_win then
+            pcall(vim.cmd, 'wincmd t')
+            util.tmux_change_pane(direction)
+        else
+            vim_navigate(direction)
+        end
+
+    elseif direction == 'p' then
 
         -- if the last pane was a tmux pane, then we need to handle control
         -- to tmux; otherwise, just issue a last pane command in vim
@@ -34,7 +47,7 @@ local function tmux_navigate(direction)
             vim_navigate(direction)
         end
 
-    elseif direction ~= 'p' then
+    else
 
         -- save the current window number to check later whether we're in the same
         -- window after issuing a vim navigation command
@@ -88,6 +101,7 @@ if vim.env.TMUX ~= nil then
     function M.NvimTmuxNavigateUp() tmux_navigate('k') end
     function M.NvimTmuxNavigateRight() tmux_navigate('l') end
     function M.NvimTmuxNavigatePrevious() tmux_navigate('p') end
+    function M.NvimTmuxNavigateNext() tmux_navigate('n') end
 else
 -- if not in tmux, simply map to normal vim navigation
     function M.NvimTmuxNavigateLeft() vim_navigate('h') end
@@ -95,6 +109,7 @@ else
     function M.NvimTmuxNavigateUp() vim_navigate('k') end
     function M.NvimTmuxNavigateRight() vim_navigate('l') end
     function M.NvimTmuxNavigatePrevious() vim_navigate('p') end
+    function M.NvimTmuxNavigateNext() vim_navigate('n') end
 end
 
 return M
