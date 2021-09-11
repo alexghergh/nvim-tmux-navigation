@@ -94,7 +94,7 @@ else
     function M.NvimTmuxNavigateDown() vim_navigate('j') end
     function M.NvimTmuxNavigateUp() vim_navigate('k') end
     function M.NvimTmuxNavigateRight() vim_navigate('l') end
-    function M.NvimTmuxNavigatePrevious() VimNavigate('p') end
+    function M.NvimTmuxNavigatePrevious() vim_navigate('p') end
 end
 
 return M
