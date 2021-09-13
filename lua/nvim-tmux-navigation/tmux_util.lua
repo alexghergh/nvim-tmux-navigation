@@ -1,6 +1,6 @@
 local util = {}
 
-local tmux_directions = { ['p'] = 'l', ['h'] = 'L', ['j'] = 'D', ['k'] = 'U', ['l'] = 'R' }
+local tmux_directions = { ['p'] = 'l', ['h'] = 'L', ['j'] = 'D', ['k'] = 'U', ['l'] = 'R', ['n'] = 't:.+' }
 
 -- send the tmux command to the server running on the socket
 -- given by the environment variable $TMUX
