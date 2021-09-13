@@ -38,8 +38,8 @@ The default keybinds are (in tmux):
 - `Ctrl + j`: move down
 - `Ctrl + k`: move up
 - `Ctrl + l`: move right
-- `Ctrl + \`: move to previous pane
-- `Ctrl + Space` move to the next pane
+- `Ctrl + \`: move to the last (previously active) pane
+- `Ctrl + Space` move to the next pane (by pane number)
 
 However, this means that you lose access to the "clear screen" terminal feature,
 activated by `<Ctrl-l>` by default. You can either:
