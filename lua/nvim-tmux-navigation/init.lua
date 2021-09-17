@@ -70,9 +70,11 @@ local function tmux_navigate(direction)
 end
 
 local function capitalize(str)
-    return str:gsub("(%a)(%a+)", function(a, b)
+    local capitalized = str:gsub("(%a)(%a+)", function(a, b)
         return string.upper(a) .. string.lower(b)
     end)
+
+    return capitalized:gsub("_", "")
 end
 
 function M.setup(user_config)
@@ -86,6 +88,12 @@ function M.setup(user_config)
     -- loop through the keybindings and map them
     for func, mapping in pairs(config.keybindings) do
         func = capitalize(func)
+
+        -- TODO remove in a future commit, keep for compatibility for now
+        if func == "Previous" then
+            func = "LastActive"
+        end
+
         vim.api.nvim_set_keymap(
             'n',
             mapping,
@@ -100,16 +108,22 @@ if vim.env.TMUX ~= nil then
     function M.NvimTmuxNavigateDown() tmux_navigate('j') end
     function M.NvimTmuxNavigateUp() tmux_navigate('k') end
     function M.NvimTmuxNavigateRight() tmux_navigate('l') end
-    function M.NvimTmuxNavigatePrevious() tmux_navigate('p') end
+    function M.NvimTmuxNavigateLastActive() tmux_navigate('p') end
     function M.NvimTmuxNavigateNext() tmux_navigate('n') end
+
+    -- TODO remove in a future commit, keep for compatibility for now
+    function M.NvimTmuxNavigatePrevious() M.NvimTmuxNavigateLastActive() end
 else
 -- if not in tmux, simply map to normal vim navigation
     function M.NvimTmuxNavigateLeft() vim_navigate('h') end
     function M.NvimTmuxNavigateDown() vim_navigate('j') end
     function M.NvimTmuxNavigateUp() vim_navigate('k') end
     function M.NvimTmuxNavigateRight() vim_navigate('l') end
-    function M.NvimTmuxNavigatePrevious() vim_navigate('p') end
+    function M.NvimTmuxNavigateLastActive() vim_navigate('p') end
     function M.NvimTmuxNavigateNext() vim_navigate('n') end
+
+    -- TODO remove in a future commit, keep for compatibility for now
+    function M.NvimTmuxNavigatePrevious() M.NvimTmuxNavigateLastActive() end
 end
 
 return M
