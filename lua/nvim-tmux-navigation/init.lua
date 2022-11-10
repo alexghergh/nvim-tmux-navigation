@@ -105,11 +105,25 @@ else
     navigate = vim_navigate
 end
 
+-- lua functions
 function M.NvimTmuxNavigateLeft() navigate('h') end
 function M.NvimTmuxNavigateDown() navigate('j') end
 function M.NvimTmuxNavigateUp() navigate('k') end
 function M.NvimTmuxNavigateRight() navigate('l') end
 function M.NvimTmuxNavigateLastActive() navigate('p') end
 function M.NvimTmuxNavigateNext() navigate('n') end
+
+local function create_command(command_name, func, direction)
+    -- use nvim's user command api to create commands
+    vim.api.nvim_create_user_command(command_name, function(...) func(direction) end, {})
+end
+
+-- user commands
+create_command("NvimTmuxNavigateLeft", navigate, 'h')
+create_command("NvimTmuxNavigateDown", navigate, 'j')
+create_command("NvimTmuxNavigateUp", navigate, 'k')
+create_command("NvimTmuxNavigateRight", navigate, 'l')
+create_command("NvimTmuxNavigateLastActive", navigate, 'p')
+create_command("NvimTmuxNavigateNext", navigate, 'n')
 
 return M
