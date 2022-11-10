@@ -89,11 +89,6 @@ function M.setup(user_config)
     for func, mapping in pairs(config.keybindings) do
         func = capitalize(func)
 
-        -- TODO remove in a future commit, keep for compatibility for now
-        if func == "Previous" then
-            func = "LastActive"
-        end
-
         vim.api.nvim_set_keymap(
             'n',
             mapping,
@@ -111,8 +106,6 @@ if vim.env.TMUX ~= nil then
     function M.NvimTmuxNavigateLastActive() tmux_navigate('p') end
     function M.NvimTmuxNavigateNext() tmux_navigate('n') end
 
-    -- TODO remove in a future commit, keep for compatibility for now
-    function M.NvimTmuxNavigatePrevious() M.NvimTmuxNavigateLastActive() end
 else
 -- if not in tmux, simply map to normal vim navigation
     function M.NvimTmuxNavigateLeft() vim_navigate('h') end
@@ -121,9 +114,6 @@ else
     function M.NvimTmuxNavigateRight() vim_navigate('l') end
     function M.NvimTmuxNavigateLastActive() vim_navigate('p') end
     function M.NvimTmuxNavigateNext() vim_navigate('n') end
-
-    -- TODO remove in a future commit, keep for compatibility for now
-    function M.NvimTmuxNavigatePrevious() M.NvimTmuxNavigateLastActive() end
 end
 
 return M
