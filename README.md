@@ -4,17 +4,16 @@ Neovim-Tmux Navigation
 The plugin is a rewrite of [Christoomey's Vim Tmux Navigator](https://github.com/christoomey/vim-tmux-navigator), with a few added
 benefits:
 
-- fully written in Lua, compatible with NeoVim 0.5.0 or higher
-- doesn't use autocommands (which are not supported natively through the Lua api
-in neovim 0.5.0), but instead takes advantage of Lua closures
+- fully written in Lua, compatible with NeoVim 0.7.0 or higher
+- takes advantage of Lua closures
 - does not use global vim variables
 
 The plugin does not, however, have a "save on switch" feature as
 _Vim Tmux Navigator_ has, and does not work with `tmate`. For such features or any
 other, please open an issue or a pull request.
 
-The plugin was tested with `neovim 0.5.0` and `tmux 3.2a`, however I see no reason
-why older `tmux` executables would not work.
+The plugin targets `neovim 0.7.0` and older, and `tmux 3.2a` and older, although
+some of the earlier `tmux` versions should work as well.
 
 ## Installation
 
