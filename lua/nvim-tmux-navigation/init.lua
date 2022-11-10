@@ -97,23 +97,19 @@ function M.setup(user_config)
     end
 end
 
+-- if in tmux, map to vim-tmux navigation, otherwise just map to vim navigation
+local navigate = nil
 if vim.env.TMUX ~= nil then
--- if in tmux, map to vim-tmux navigation
-    function M.NvimTmuxNavigateLeft() tmux_navigate('h') end
-    function M.NvimTmuxNavigateDown() tmux_navigate('j') end
-    function M.NvimTmuxNavigateUp() tmux_navigate('k') end
-    function M.NvimTmuxNavigateRight() tmux_navigate('l') end
-    function M.NvimTmuxNavigateLastActive() tmux_navigate('p') end
-    function M.NvimTmuxNavigateNext() tmux_navigate('n') end
-
+    navigate = tmux_navigate
 else
--- if not in tmux, simply map to normal vim navigation
-    function M.NvimTmuxNavigateLeft() vim_navigate('h') end
-    function M.NvimTmuxNavigateDown() vim_navigate('j') end
-    function M.NvimTmuxNavigateUp() vim_navigate('k') end
-    function M.NvimTmuxNavigateRight() vim_navigate('l') end
-    function M.NvimTmuxNavigateLastActive() vim_navigate('p') end
-    function M.NvimTmuxNavigateNext() vim_navigate('n') end
+    navigate = vim_navigate
 end
+
+function M.NvimTmuxNavigateLeft() navigate('h') end
+function M.NvimTmuxNavigateDown() navigate('j') end
+function M.NvimTmuxNavigateUp() navigate('k') end
+function M.NvimTmuxNavigateRight() navigate('l') end
+function M.NvimTmuxNavigateLastActive() navigate('p') end
+function M.NvimTmuxNavigateNext() navigate('n') end
 
 return M
