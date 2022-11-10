@@ -155,6 +155,17 @@ more room to play with (for example to call the functions in a different
 mapping, or if some condition is met, or to ignore `silent` in the keymappings,
 or to additionally call the functions in visual mode as well, etc.).
 
+## Alternatives
+
+As with everything that's great in life, there are a ton of alternatives to this
+plugin. These are great projects, born from the same desire to improve user
+experience within Tmux and Neovim. Go check them out and see if you like those
+more:
+- [Nvimux-Navigator](https://github.com/emilienlemaire/nvimux-navigator)
+- [tmux.nvim](https://github.com/aserowy/tmux.nvim)
+- [ttymux.nvim](https://github.com/illia-danko/ttymux.nvim)
+- [Navigator.nvim](https://github.com/numToStr/Navigator.nvim/)
+
 ## Additional help
 
 For common issues, see [Vim-tmux navigator](https://github.com/christoomey/vim-tmux-navigator).
