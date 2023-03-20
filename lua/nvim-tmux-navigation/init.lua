@@ -69,14 +69,6 @@ local function tmux_navigate(direction)
     end
 end
 
-local function capitalize(str)
-    local capitalized = str:gsub("(%a)(%a+)", function(a, b)
-        return string.upper(a) .. string.lower(b)
-    end)
-
-    return capitalized:gsub("_", "")
-end
-
 function M.setup(user_config)
     -- disable nvim tmux navigation when a tmux pane is zoomed
     -- defaults to false
@@ -87,8 +79,10 @@ function M.setup(user_config)
 
     -- loop through the keybindings and map them
     for func, mapping in pairs(config.keybindings) do
-        func = capitalize(func)
+        func = util.capitalize(func)
 
+        -- use old style (neovim 0.5) key mappings in order to be able to
+        -- dynamically compute the function name inside a string
         vim.api.nvim_set_keymap(
             'n',
             mapping,

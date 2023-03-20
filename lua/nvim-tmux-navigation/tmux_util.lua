@@ -31,4 +31,13 @@ function util.tmux_change_pane(direction)
     tmux_command("select-pane -" .. tmux_directions[direction])
 end
 
+-- capitalization util, only capitalizes the first character of the whole word
+function util.capitalize(str)
+    local capitalized = str:gsub("(%a)(%a+)", function(a, b)
+        return string.upper(a) .. string.lower(b)
+    end)
+
+    return capitalized:gsub("_", "")
+end
+
 return util
