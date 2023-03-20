@@ -7,18 +7,21 @@ benefits:
 - fully written in Lua, compatible with NeoVim 0.7.0 or higher
 - takes advantage of Lua closures
 - does not use global vim variables
+- switch to the next window (numerically), whether it is a `neovim` split or a
+  `tmux` pane
 
-The plugin does not, however, have a "save on switch" feature as
-_Vim Tmux Navigator_ has, and does not work with `tmate`. For such features or any
-other, please open an issue or a pull request.
+The plugin does not, however, have a "save on switch" feature as _Vim Tmux
+Navigator_ has, and does not work with `tmate`. For such features or any other,
+please open an issue or a pull request.
 
-The plugin targets `neovim 0.7.0` and older, and `tmux 3.2a` and older, although
-some of the earlier `tmux` versions should work as well.
+The plugin targets `neovim 0.7.0` (for the keymap and user commands features)
+and more recent versions, and `tmux 3.2a` and more recent versions, although
+some of the older `tmux` versions should work as well.
 
 ## Installation
 
 To use the plugin, install it through a package manager, like [vim-plug](https://github.com/junegunn/vim-plug) or
-[packer](https://github.com/wbthomason/packer.nvim) (put the lines below in your `init.vim` file):
+[packer](https://github.com/wbthomason/packer.nvim):
 
 ```vim
 " vim-plug
@@ -30,45 +33,50 @@ Plug 'alexghergh/nvim-tmux-navigation'
 use { "alexghergh/nvim-tmux-navigation" }
 ```
 
-## Usage
+## Configuration
 
-The default keybinds are (in tmux):
-- `Ctrl + h`: move left
-- `Ctrl + j`: move down
-- `Ctrl + k`: move up
-- `Ctrl + l`: move right
-- `Ctrl + \`: move to the last (previously active) pane
-- `Ctrl + Space` move to the next pane (by pane number)
+Before using the plugin, a few configuration steps are needed. Navigation keys
+need to be set up inside both `tmux` and `neovim`. Ideally, both should have the
+same navigation keys, so the transition between windows becomes transparent (it
+doesn't care if it's inside a vim process or not).
 
-However, this means that you lose access to the "clear screen" terminal feature,
-activated by `<Ctrl-l>` by default. You can either:
+### Tmux
+
+The `tmux` part basically needs to know whether it is inside a `vim` process,
+and send the navigation keys through to it in that case. If it is not, then it
+just switches panes.
+
+You need the lines below in your `~/.tmux.conf`. This assumes that you want
+to use `Ctrl` keybinds to switch between windows, however feel free to switch to
+any other prefix (like `Alt`/`Meta`; for example `M-h`).
+
+Careful though, having `Ctrl` as prefix means that you lose access to the "clear
+screen" terminal feature, activated by `<Ctrl-l>` by default. You can either:
 - remap the keys to something like `Alt + h/j/k/l` if your terminal supports it
 (not all do), or
 - add a different keybind to clear screen in `~/.tmux.conf`, for example
 `bind C-l send-keys 'C-l'`; this allows you to do `<prefix> C-l` to clear screen.
 
-The keybinds can be changed in both neovim and tmux, see [configuration](#configuration).
-
-## Configuration
-
-### Tmux
-
-To use the plugin, you need the following lines in your `~/.tmux.conf`:
-
 ```tmux
 # Smart pane switching with awareness of Vim splits.
 # See: https://github.com/christoomey/vim-tmux-navigator
+
+# decide whether we're in a Vim process
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+
 bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
 bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
 bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'
 bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l' 'select-pane -R'
+
 tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+
 if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
 if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+
 bind-key -n 'C-Space' if-shell "$is_vim" 'send-keys C-Space' 'select-pane -t:.+'
 
 bind-key -T copy-mode-vi 'C-h' select-pane -L
@@ -81,10 +89,7 @@ bind-key -T copy-mode-vi 'C-Space' select-pane -t:.+
 
 ### Neovim
 
-After you installed the plugin through a package manager, you need to add your
-keybindings. The plugin does not assume any defaults, instead it lets the user
-choose what their keybinds are (make sure these keybinds match the keybinds in
-`~/.tmux.conf`, otherwise switching might not be so easy).
+After you configured `tmux`, it's time to configure `neovim` as well.
 
 To configure the keybinds, do (in your `init.vim`):
 
@@ -97,19 +102,22 @@ nnoremap <silent> <C-\> <Cmd>NvimTmuxNavigateLastActive<CR>
 nnoremap <silent> <C-Space> <Cmd>NvimTmuxNavigateNext<CR>
 ```
 
-There are additional settings for the plugin, for example disable navigation
-between tmux panes when the current pane is zoomed. To activate this option,
-just tell the plugin about it (put this in your `init.vim`, inside Lua heredocs):
+For `init.lua`, you can either map the commands manually (probably using
+`vim.keymap.set`), or you can keep on reading to find out how the plugin can do
+it for you!
 
-```vim
-lua <<EOF
+There are additional settings for the plugin, for example disable navigation
+between `tmux` panes when the current pane is zoomed. To activate this option,
+just tell the plugin about it (inside the `setup` function):
+
+```lua
 require'nvim-tmux-navigation'.setup {
     disable_when_zoomed = true -- defaults to false
 }
-EOF
 ```
 
-Additionally, if using [packer](https://github.com/wbthomason/packer.nvim), you can do:
+Additionally, if using [packer](https://github.com/wbthomason/packer.nvim)
+inside your `init.lua`, you can do everything at once:
 
 ```lua
 use { 'alexghergh/nvim-tmux-navigation', config = function()
@@ -154,6 +162,29 @@ The 2 snippets above are completely equivalent, however the first one gives you
 more room to play with (for example to call the functions in a different
 mapping, or if some condition is met, or to ignore `silent` in the keymappings,
 or to additionally call the functions in visual mode as well, etc.).
+
+**!NOTE**: You need to call the setup function of the plugin at least once, even
+if empty:
+
+```lua
+use { 'alexghergh/nvim-tmux-navigation', config = function()
+        require'nvim-tmux-navigation'.setup()
+    end
+}
+```
+
+## Usage
+
+If you went through the [Configuration](#configuration), then congrats! You
+should have a working set up.
+
+As a summary, the keybinds are (assuming `Ctrl`-prefixed):
+- `Ctrl + h`: move left
+- `Ctrl + j`: move down
+- `Ctrl + k`: move up
+- `Ctrl + l`: move right
+- `Ctrl + \`: move to the last (previously active) pane
+- `Ctrl + Space` move to the next pane (by pane number)
 
 ## Alternatives
 
