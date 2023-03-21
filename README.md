@@ -186,6 +186,14 @@ As a summary, the keybinds are (assuming `Ctrl`-prefixed):
 - `Ctrl + \`: move to the last (previously active) pane
 - `Ctrl + Space` move to the next pane (by pane number)
 
+There are also convenience commands already implemented for you:
+- `:NvimTmuxNavigateLeft`
+- `:NvimTmuxNavigateDown`
+- `:NvimTmuxNavigateUp`
+- `:NvimTmuxNavigateRight`
+- `:NvimTmuxNavigateLastActive`
+- `:NvimTmuxNavigateNext`
+
 ## Alternatives
 
 As with everything that's great in life, there are a ton of alternatives to this
