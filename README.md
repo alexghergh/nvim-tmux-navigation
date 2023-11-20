@@ -205,6 +205,11 @@ more:
 - [ttymux.nvim](https://github.com/illia-danko/ttymux.nvim)
 - [Navigator.nvim](https://github.com/numToStr/Navigator.nvim/)
 
+## FAQ
+
+1. Q: The plugin doesn't work when using [Fig](https://fig.io/). How can I fix it?
+   A: Known problem, see [this issue](https://github.com/christoomey/vim-tmux-navigator/issues/339) for a workaround fix.
+
 ## Additional help
 
 For common issues, see [Vim-tmux navigator](https://github.com/christoomey/vim-tmux-navigator).
