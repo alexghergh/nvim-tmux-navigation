@@ -225,6 +225,13 @@ more:
 1. Q: The plugin doesn't work when using [Fig](https://fig.io/). How can I fix it?
    A: Known problem, see [this issue](https://github.com/christoomey/vim-tmux-navigator/issues/339) for a workaround fix.
 
+2. Q: There's noticeable slowdown when switching splits/panes. Any fixes for
+   that?
+   A: See [this
+   issue](https://github.com/alexghergh/nvim-tmux-navigation/issues/16) for a
+   possible workaround using `pgrep` (this might fail to work in some cases
+   though; if you do find such a case please open an issue).
+
 ## Additional help
 
 For common issues, see [Vim-tmux navigator](https://github.com/christoomey/vim-tmux-navigator).
