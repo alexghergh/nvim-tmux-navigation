@@ -87,6 +87,21 @@ bind-key -T copy-mode-vi 'C-\' select-pane -l
 bind-key -T copy-mode-vi 'C-Space' select-pane -t:.+
 ```
 
+#### Tmux Plugin Manager
+
+Alternatively, the above is already implemented as a plugin in
+[TPM](https://github.com/tmux-plugins/tpm) (thanks to [Chris
+Toomey](https://github.com/christoomey/vim-tmux-navigator/?tab=readme-ov-file#tpm)).
+You just need to append the following lines to your plugins in your `tmux.conf`
+file (though keep in mind this Tmux plugin doesn't implement `C-Space`, as
+that's an `nvim-tmux-navigation` thing; if you need that, you have to add it
+manually):
+
+```
+set -g @plugin 'christoomey/vim-tmux-navigator'
+run '~/.tmux/plugins/tpm/tpm'
+```
+
 ### Neovim
 
 After you configured `tmux`, it's time to configure `neovim` as well.
