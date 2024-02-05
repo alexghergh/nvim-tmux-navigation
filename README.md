@@ -21,7 +21,7 @@ some of the older `tmux` versions should work as well.
 ## Installation
 
 To use the plugin, install it through a package manager, like [vim-plug](https://github.com/junegunn/vim-plug) or
-[packer](https://github.com/wbthomason/packer.nvim):
+[lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```vim
 " vim-plug
@@ -29,8 +29,8 @@ Plug 'alexghergh/nvim-tmux-navigation'
 ```
 
 ```vim
-" packer
-use { "alexghergh/nvim-tmux-navigation" }
+" lazy.nvim
+{ "alexghergh/nvim-tmux-navigation" }
 ```
 
 ## Configuration
@@ -116,45 +116,45 @@ require'nvim-tmux-navigation'.setup {
 }
 ```
 
-Additionally, if using [packer](https://github.com/wbthomason/packer.nvim)
+Additionally, if using [lazy.nvim](https://github.com/folke/lazy.nvim/)
 inside your `init.lua`, you can do everything at once:
 
 ```lua
-use { 'alexghergh/nvim-tmux-navigation', config = function()
+{ 'alexghergh/nvim-tmux-navigation', config = function()
 
-        local nvim_tmux_nav = require('nvim-tmux-navigation')
+    local nvim_tmux_nav = require('nvim-tmux-navigation')
 
-        nvim_tmux_nav.setup {
-            disable_when_zoomed = true -- defaults to false
-        }
+    nvim_tmux_nav.setup {
+        disable_when_zoomed = true -- defaults to false
+    }
 
-        vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
-        vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
-        vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
-        vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
-        vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
-        vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+    vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+    vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+    vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+    vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+    vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
+    vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
 
-    end
+end
 }
 ```
 
 Or, for a shorter syntax:
 
 ```lua
-use { 'alexghergh/nvim-tmux-navigation', config = function()
-        require'nvim-tmux-navigation'.setup {
-            disable_when_zoomed = true, -- defaults to false
-            keybindings = {
-                left = "<C-h>",
-                down = "<C-j>",
-                up = "<C-k>",
-                right = "<C-l>",
-                last_active = "<C-\\>",
-                next = "<C-Space>",
-            }
+{ 'alexghergh/nvim-tmux-navigation', config = function()
+    require'nvim-tmux-navigation'.setup {
+        disable_when_zoomed = true, -- defaults to false
+        keybindings = {
+            left = "<C-h>",
+            down = "<C-j>",
+            up = "<C-k>",
+            right = "<C-l>",
+            last_active = "<C-\\>",
+            next = "<C-Space>",
         }
-    end
+    }
+end
 }
 ```
 
@@ -167,9 +167,9 @@ or to additionally call the functions in visual mode as well, etc.).
 if empty:
 
 ```lua
-use { 'alexghergh/nvim-tmux-navigation', config = function()
-        require'nvim-tmux-navigation'.setup()
-    end
+{ 'alexghergh/nvim-tmux-navigation', config = function()
+    require'nvim-tmux-navigation'.setup()
+end
 }
 ```
 
