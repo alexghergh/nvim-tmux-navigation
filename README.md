@@ -232,6 +232,15 @@ more:
    possible workaround using `pgrep` (this might fail to work in some cases
    though; if you do find such a case please open an issue).
 
+3. Q: The plugin doesn't work when interacting with
+   [Poetry](https://python-poetry.org/) shells.
+   A: This happens because Poetry spawns sub-tty's, therefore messing with
+   Tmux's detection of Vim processes (Tmux cannot see Neovim when run inside
+   Poetry). Until I have time and motivation to work on a fix for this, please
+   see [this
+   issue](https://github.com/alexghergh/nvim-tmux-navigation/issues/13) for a
+   few workarounds suggested by the community.
+
 ## Additional help
 
 For common issues, see [Vim-tmux navigator](https://github.com/christoomey/vim-tmux-navigator).
